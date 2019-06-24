@@ -1,3 +1,11 @@
+## Relation with eml-format
+
+The [eml-format](https://github.com/papnkukn/eml-format) stops update since 2017.
+
+But we need to use better tool.
+
+So I build this package on top of it.
+
 ## EML file format
 
 A pure Node.js library for parsing and building EML files, i.e. e-mail message format described in [RFC 822](http://www.ietf.org/rfc/rfc0822.txt). EML is returned by the POP3 protocol and handled by many e-mail agents like Mozilla Thunderbird or Micfosot Outlook. An EML file consists of headers and body similar to the HTTP structure.
