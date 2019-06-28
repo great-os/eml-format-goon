@@ -1,6 +1,6 @@
 {
   "name": "eml-format-goon",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "RFC 822 EML file format parser and builder",
   "author": "Papn Kukn",
   "maintainers": [
@@ -22,6 +22,7 @@
     "url": "https://github.com/great-os/eml-format-goon/issues"
   },
   "devDependencies": {
+    "@types/node": "^12.0.10",
     "nodeunit": "^0.11.1"
   },
   "dependencies": {
