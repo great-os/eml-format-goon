@@ -31,13 +31,13 @@ Lorem ipsum...
 
 Setup
 ```
-npm install -g eml-format
+npm install -g eml-format-goon
 ```
 
 Read EML file
 ```javascript
 var fs = require('fs');
-var emlformat = require('eml-format');
+var emlformat = require('eml-format-goon');
 
 var eml = fs.readFileSync("sample.eml", "utf-8");
 emlformat.read(eml, function(error, data) {
@@ -74,6 +74,26 @@ Output structure
     }
   ]
 }
+```
+
+[NEW] Read EML file with gb2312 html content
+
+```js
+var fs = require('fs');
+var emlformat = require('eml-format-goon');
+var iconv = require('iconv-lite'); //decoder lib
+
+var eml = fs.readFileSync("sample.eml", "utf-8");
+emlformat.useEncodingPlugin({
+  version: '1.0',
+  encoding: 'gb2312',
+  encoder: (content: string): Buffer => Buffer.from(iconv.decode(Buffer.from(content, 'base64'), 'gb2312'), 'utf8'),
+});
+emlformat.read(eml, function(error, data) {
+  if (error) return console.log(error);
+  fs.writeFileSync("sample.json", JSON.stringify(data, " ", 2));
+  console.log(data);
+});
 ```
 
 ### Command Line
@@ -142,7 +162,7 @@ Unpacks EML message and attachments to a directory.
 ### Read headers only
 ```javascript
 var fs = require('fs');
-var emlformat = require('eml-format');
+var emlformat = require('eml-format-goon');
 
 var eml = fs.readFileSync("sample.eml", "utf-8");
 emlformat.read(eml, { headersOnly: true }, function(error, data) {
@@ -184,7 +204,7 @@ emlformat.read(eml, function(error, data) {
 Extracts plain text, html content and attachments to a directory
 ```javascript
 var fs = require('fs');
-var emlformat = require('eml-format');
+var emlformat = require('eml-format-goon');
 
 var dir = "unpacked"; //Output directory
 var eml = fs.readFileSync("sample.eml", "utf-8");
@@ -199,7 +219,7 @@ emlformat.unpack(eml, dir, function(error, data) {
 
 ```javascript
 var fs = require('fs');
-var emlformat = require('eml-format');
+var emlformat = require('eml-format-goon');
 
 var data = {
   from: "no-reply@bar.com",
@@ -236,7 +256,7 @@ emlformat.build(data, function(error, eml) {
 ### Register a new mime type file extension
 
 ```javascript
-var emlformat = require('eml-format');
+var emlformat = require('eml-format-goon');
 emlformat.fileExtensions["application/zip"] = ".zip";
 emlformat.fileExtensions["application/octet-stream"] = ".bin";
 ```
@@ -244,7 +264,7 @@ emlformat.fileExtensions["application/octet-stream"] = ".bin";
 
 Plain text name
 ```javascript
-var emlformat = require('eml-format');
+var emlformat = require('eml-format-goon');
 var data = emlformat.getEmailAddress('"Foo Bar" <foo@bar.com>');
 //data.name == "Foo Bar";
 //data.email == "foo@bar.com";
@@ -252,7 +272,7 @@ var data = emlformat.getEmailAddress('"Foo Bar" <foo@bar.com>');
 
 UTF-8 encoded name
 ```javascript
-var emlformat = require('eml-format');
+var emlformat = require('eml-format-goon');
 var data = emlformat.getEmailAddress('=?UTF-8?Q?You=E2=80=99re=20Foo=20Bar?= <foo@bar.com>');
 //data.name == "You’re Foo Bar";
 //data.email == "foo@bar.com";
@@ -261,13 +281,13 @@ var data = emlformat.getEmailAddress('=?UTF-8?Q?You=E2=80=99re=20Foo=20Bar?= <fo
 ### Decode "quoted-printable"
 
 ```javascript
-var emlformat = require('eml-format');
+var emlformat = require('eml-format-goon');
 var message = emlformat.unquotePrintable("Join line 1=\r\n=20with line 2=0D=0A");
 ```
 
 ### Decode "=?UTF-8?...?=" string
 
 ```javascript
-var emlformat = require('eml-format');
+var emlformat = require('eml-format-goon');
 var message = emlformat.unquoteUTF8("=?UTF-8?B?V2hhdOKAmXMgeW91ciBvbmxpbmUgc2hvcHBpbmcgc3R5bGU/?=");
 ```
