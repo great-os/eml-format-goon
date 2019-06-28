@@ -87,7 +87,7 @@ var eml = fs.readFileSync("sample.eml", "utf-8");
 emlformat.useEncodingPlugin({
   version: '1.0',
   encoding: 'gb2312',
-  encoder: (content: string): Buffer => Buffer.from(iconv.decode(Buffer.from(content, 'base64'), 'gb2312'), 'utf8'),
+  encoder: (content) => Buffer.from(iconv.decode(Buffer.from(content, 'base64'), 'gb2312'), 'utf8'),
 });
 emlformat.read(eml, function(error, data) {
   if (error) return console.log(error);

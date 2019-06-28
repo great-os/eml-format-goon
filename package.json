@@ -1,6 +1,6 @@
 {
   "name": "eml-format-goon",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "RFC 822 EML file format parser and builder",
   "author": "Papn Kukn",
   "maintainers": [
